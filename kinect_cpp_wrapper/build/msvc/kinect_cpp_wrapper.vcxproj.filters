@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="win32">
-      <UniqueIdentifier>{bbe3cf04-168e-4c1d-ac62-18945f87ef20}</UniqueIdentifier>
-    </Filter>
     <Filter Include="kinect">
       <UniqueIdentifier>{2d37bb11-764c-4598-9793-1d56db9cc094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win32">
+      <UniqueIdentifier>{cb33f79b-97d7-4f9b-ae61-c20c1900b00b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,17 +27,11 @@
     <ClCompile Include="..\..\src\kinect\Kinect.cpp">
       <Filter>kinect</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\Win32Exception.cpp">
-      <Filter>win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\kinect\ImageStream.cpp">
       <Filter>kinect</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\kinect\ImageFrame.cpp">
       <Filter>kinect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\win32\Event.cpp">
-      <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\kinect\SkeletonEngine.cpp">
       <Filter>kinect</Filter>
@@ -45,13 +39,16 @@
     <ClCompile Include="..\..\src\kinect\SkeletonFrame.cpp">
       <Filter>kinect</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\win32\Event.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\kinect\KinectContext.cpp">
+      <Filter>kinect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\kinect\nui\Kinect.h">
       <Filter>kinect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\win32\Win32Exception.h">
-      <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\kinect\nui\ImageStream.h">
       <Filter>kinect</Filter>
@@ -59,14 +56,23 @@
     <ClInclude Include="..\..\include\kinect\nui\ImageFrame.h">
       <Filter>kinect</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\win32\Event.h">
-      <Filter>win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\kinect\nui\SkeletonEngine.h">
       <Filter>kinect</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\kinect\nui\SkeletonFrame.h">
       <Filter>kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\win32\Event.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\kinect\nui\KinectContext.h">
+      <Filter>kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\kinect\nui\KinectListener.h">
+      <Filter>kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\win32\SpinLock.h">
+      <Filter>win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

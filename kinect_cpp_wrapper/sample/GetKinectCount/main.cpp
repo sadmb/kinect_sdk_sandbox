@@ -10,4 +10,5 @@ void main()
 	int count = 0;
 	::MSR_NUIGetDeviceCount( &count );
 	std::cout << count << " kinects" << std::endl;;
+	Sleep(5000);
 }

@@ -1,51 +1,108 @@
-﻿#pragma once
+﻿/******************************************************************/
+/**
+ * @file	SkeletonEngine.h
+ * @brief	Skeleton engine for kinect
+ * @note	
+ * @todo
+ * @bug	
+ * @see		https://github.com/sadmb/kinect_sdk_sandbox/tree/master/kinect_cpp_wrapper
+ *
+ * @author	kaorun55
+ * @author	sadmb
+ * @date	Oct. 26, 2011 modified
+ */
+/******************************************************************/
+#ifndef KINECT_NUI_SKELETON_ENGINE_H
+#define KINECT_NUI_SKELETON_ENGINE_H
+
 #include <memory>
 
 #include <Windows.h>
 #include <MSR_NuiApi.h>
 
-#include "SkeletonFrame.h"
+#include "kinect/nui/SkeletonFrame.h"
 
 #include "win32/Event.h"
 
-namespace std {
-	using namespace std::tr1;
-}
-
 namespace kinect {
 	namespace nui {
-        class Kinect;
+		//////////////////////////////////////////////////////
+		//				forward declaration					//
+		//////////////////////////////////////////////////////
+		class Kinect;
 
-        class SkeletonEngine
-        {
-            friend class Kinect;
+		//////////////////////////////////////////////////////
+		//				class declarations					//
+		//////////////////////////////////////////////////////
+		/****************************************/
+		/**
+		 * @class	SkeletonEngine
+		 * @brief	Skeleton engine for kinect
+		 * @note	
+		 * @date	Oct. 26, 2011
+		 */
+		/****************************************/
+		class SkeletonEngine
+		{
+			friend class Kinect;
 
-        public:
-            ~SkeletonEngine();
+		public:
+			/**
+			 * @brief	Destructor
+			 */
+			~SkeletonEngine();
 
-            void Enable( DWORD dwFlags = 0 );
-            void Disable();
+			/**
+			 * @brief	Enable the capturing of Skeleton data
+			 */
+			void Enable( DWORD dwFlags = 0 );
 
-            SkeletonFrame GetNextFrame( DWORD dwMillisecondsToWait = 0 );
+			/**
+			 * @brief	Disable the capturing of Skeleton data
+			 */
+			void Disable();
 
-            bool IsEnabled() const { return isEnabled_; }
+			/**
+			 * @brief	Get the next frame
+			 */
+			SkeletonFrame GetNextFrame( DWORD dwMillisecondsToWait = 0 );
 
-            bool Wait( DWORD dwMilliseconds = INFINITE ) { return event_.Wait( dwMilliseconds ); }
+			/**
+			 * @brief	Is the capturing of skeleton data enabled?
+			 * @return	true when enabled
+			 */
+			bool IsEnabled() const { return isEnabled_; }
 
-        private:
+			/**
+			 * @brief	Wait
+			 */
+			bool Wait( DWORD dwMilliseconds = INFINITE ) { return event_.Wait( dwMilliseconds ); }
 
-            SkeletonEngine( std::shared_ptr< INuiInstance >& instance );
+		private:
 
-            SkeletonEngine( const SkeletonEngine& rhs );
-            SkeletonEngine& operator = ( const SkeletonEngine& rhs );
+			/**
+			 * @brief	Prohibit constructor
+			 */
+			SkeletonEngine();
 
-        private:
+			/**
+			 * @brief	Prohibit copy constructor
+			 */
+			SkeletonEngine( const SkeletonEngine& rhs );
 
-            std::shared_ptr< INuiInstance > instance_;
-            win32::Event    event_;
+			/**
+			 * @brief	Copy kinect instance
+			 */
+			void CopyInstance ( std::shared_ptr< INuiInstance >& instance );
 
-            bool isEnabled_;
-        };
+		private:
 
-    }
-}
+			std::shared_ptr< INuiInstance > instance_; ///< pointer for kinect instance 
+			win32::Event    event_; ///< event handle
+
+			bool isEnabled_;
+		};
+
+	} // namespace nui
+} // namespace kinect
+#endif // KINECT_NUI_SKELETON_ENGINE_H

@@ -1,93 +1,163 @@
-﻿#pragma once
+﻿/******************************************************************/
+/**
+ * @file	SkeletonFrame.h
+ * @brief	Skeleton frame and skeleton data for kinect video/ depth camera
+ * @note	
+ * @todo
+ * @bug	
+ * @see		https://github.com/sadmb/kinect_sdk_sandbox/tree/master/kinect_cpp_wrapper
+ *
+ * @author	kaorun55
+ * @author	sadmb
+ * @date	Oct. 26, 2011 modified
+ */
+/******************************************************************/
+#ifndef KINECT_NUI_SKELETON_FRAME_H
+#define KINECT_NUI_SKELETON_FRAME_H
+
 #include <memory>
 #include <tuple>
 
 #include <Windows.h>
 #include <MSR_NuiApi.h>
 
-namespace std {
-	using namespace std::tr1;
-}
-
 namespace kinect {
 	namespace nui {
-        class SkeletonFrame;
+		//////////////////////////////////////////////////////
+		//				forward declaration					//
+		//////////////////////////////////////////////////////
+		class SkeletonFrame;
 
-        class SkeletonData
-        {
-            friend class SkeletonFrame;
+		//////////////////////////////////////////////////////
+		//				class declarations					//
+		//////////////////////////////////////////////////////
+		/****************************************/
+		/**
+		 * @class	SkeletonData
+		 * @brief	Skeleton data for kinect video/ depth camera
+		 * @note	
+		 * @date	Oct. 26, 2011
+		 */
+		/****************************************/
+		class SkeletonData
+		{
+			friend class SkeletonFrame;
 
-        public:
+		public:
+			/**
+			 * @brief Point struct for skeleton joint
+			 */
+			struct Point {
+				float   x;
+				float   y;
+				USHORT  depth;
 
-            struct Point {
-                float   x;
-                float   y;
-                USHORT  depth;
+				Point() : x( 0 ), y( 0 ) {}
+			};
 
-                Point() : x( 0 ), y( 0 ) {}
-            };
+			static const int POSITION_COUNT = NUI_SKELETON_POSITION_COUNT; ///< number of skeleton joints
 
-            static const int POSITION_COUNT = NUI_SKELETON_POSITION_COUNT;
+			/**
+			 * @brief transform skeleton data to Point struct
+			 */
+			Point TransformSkeletonToDepthImage( int index )
+			{
+				Point p;
+				NuiTransformSkeletonToDepthImageF( skeletonData_.SkeletonPositions[index], &p.x, &p.y, &p.depth );
+				return p;
+			}
 
-            Point TransformSkeletonToDepthImage( int index )
-            {
-                Point p;
-                NuiTransformSkeletonToDepthImageF( skeletonData_.SkeletonPositions[index], &p.x, &p.y, &p.depth );
-                return p;
-            }
-
-
-            NUI_SKELETON_TRACKING_STATE TrackingState() const { return skeletonData_.eTrackingState; }
+			/**
+			 * @brief Get tracking state
+			 */
+			NUI_SKELETON_TRACKING_STATE TrackingState() const { return skeletonData_.eTrackingState; }
 
 			Vector4 operator [] ( int index )
 			{
 				return skeletonData_.SkeletonPositions[index];
 			}
 
-            DWORD GetUserIndex() const { return skeletonData_.dwUserIndex; }
+			/**
+			 * @brief Get user index
+			 */
+			DWORD GetUserIndex() const { return skeletonData_.dwUserIndex; }
 
-        private:
+		private:
 
-            SkeletonData( NUI_SKELETON_DATA& skeletonData )
-                : skeletonData_( skeletonData )
-            {
-            }
+			/**
+			 * @brief Constructor
+			 */
+			SkeletonData( NUI_SKELETON_DATA& skeletonData )
+				: skeletonData_( skeletonData )
+			{
+			}
 
-        private:
+		private:
 
-            NUI_SKELETON_DATA&   skeletonData_;
-        };
+			NUI_SKELETON_DATA&   skeletonData_; ///< skeleton data
+		};
 
 
-        class SkeletonEngine;
+		//////////////////////////////////////////////////////
+		//				forward declaration					//
+		//////////////////////////////////////////////////////
+		class SkeletonEngine;
 
-        class SkeletonFrame
-        {
-            friend class SkeletonEngine;
+		//////////////////////////////////////////////////////
+		//				class declarations					//
+		//////////////////////////////////////////////////////
+		/****************************************/
+		/**
+		 * @class	SkeletonFrame
+		 * @brief	Skeleton frame for kinect video/ depth camera
+		 * @note	
+		 * @date	Nov. 21, 2011
+		 */
+		/****************************************/
+		class SkeletonFrame
+		{
+			friend class SkeletonEngine;
 
-        public:
+		public:
 
-            static const int SKELETON_COUNT = NUI_SKELETON_COUNT;
+			static const int SKELETON_COUNT = NUI_SKELETON_COUNT; ///< number of skeletons
 
-            virtual ~SkeletonFrame();
+			/**
+			 * @biref	Destructor
+			 */
+			virtual ~SkeletonFrame();
 
-            void TransformSmooth( const NUI_TRANSFORM_SMOOTH_PARAMETERS *pSmoothingParams = 0 );
+			/**
+			 * @biref	Transform smoothing data
+			 */
+			void TransformSmooth( const NUI_TRANSFORM_SMOOTH_PARAMETERS *pSmoothingParams = 0 );
 
-            bool IsFoundSkeleton() const;
+			/**
+			 * @biref	If skeleton is found
+			 * @return	true when a skeleton founded
+			 */
+			bool IsFoundSkeleton() const;
 
-            SkeletonData operator [] ( int index ) { return SkeletonData( skeletonFrame_.SkeletonData[index] ); }
+			SkeletonData operator [] ( int index ) { return SkeletonData( skeletonFrame_.SkeletonData[index] ); }
 
-        private:
+		private:
 
-            SkeletonFrame( std::shared_ptr< INuiInstance >& instance, DWORD dwMillisecondsToWait = 0 );
+			/**
+			 * @biref	Constructor
+			 */
+			SkeletonFrame( std::shared_ptr< INuiInstance >& instance, DWORD dwMillisecondsToWait = 0 );
 
-            void GetNextFrame( DWORD dwMillisecondsToWait = 0 );
+			/**
+			 * @biref	Get the next frame
+			 */
+			void GetNextFrame( DWORD dwMillisecondsToWait = 0 );
 
-        protected:
+		protected:
 
-            std::shared_ptr< INuiInstance > instance_;
+			std::shared_ptr< INuiInstance > instance_; ///< kinect instance
 
-            NUI_SKELETON_FRAME skeletonFrame_;
-        };
-    }
-}
+			NUI_SKELETON_FRAME skeletonFrame_; ///< skeleton frame
+		};
+	} // namespace nui
+} // namespace kinect
+#endif // KINECT_NUI_SKELETON_FRAME_H

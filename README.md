@@ -1,10 +1,12 @@
-# MicrosoftのKinect公式SDKを使ったサンプルです。
+# VC++ 2010 Samples using Microsoft Kinect SDK beta2
 
-## ライセンス
-ライセンスは｢MIT ライセンス｣とします。
+## License
+MIT license  
 http://ja.wikipedia.org/wiki/MIT_License
 
-## 免責事項
-本ソフトウェアは使用者の責任において利用してください。
-このプログラムによって発生した、いかなる障害・損害も作成者は一切責任を負わないものとします。
+## Disclaimer
+Users must take full responsibility while using this software.  
+We will not be liable for any loss or damage caused by this program.
 
+## Requirement
+You must install Visual C++ 2010 and Kinect SDK beta2 before using this sample.

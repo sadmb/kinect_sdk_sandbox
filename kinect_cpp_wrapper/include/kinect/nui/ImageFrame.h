@@ -1,67 +1,142 @@
-﻿#pragma once
+﻿/******************************************************************/
+/**
+ * @file	ImageFrame.h
+ * @brief	Image frame for kinect video/ depth camera
+ * @note	
+ * @todo
+ * @bug	
+ * @see		https://github.com/sadmb/kinect_sdk_sandbox/tree/master/kinect_cpp_wrapper
+ *
+ * @author	kaorun55
+ * @author	sadmb
+ * @date	Oct. 26, 2011 modified
+ */
+/******************************************************************/
+#ifndef KINECT_NUI_IMAGE_FRAME_H
+#define KINECT_NUI_IMAGE_FRAME_H
+
 #include <memory>
 
 #include <Windows.h>
 #include <MSR_NuiApi.h>
 
-namespace std {
-    using namespace std::tr1;
-}
-
 namespace kinect {
-    namespace nui {
-        class ImageStream;
+	namespace nui {
+		class ImageStream;
 
-        /// 1フレームのデータ
-        class ImageFrame
-        {
-        public:
+		//////////////////////////////////////////////////////
+		//				class declarations					//
+		//////////////////////////////////////////////////////
+		/****************************************/
+		/**
+		 * @class	ImageFrame
+		 * @brief	Image frame for kinect video/ depth camera
+		 * @note	
+		 * @date	Oct. 26, 2011
+		 */
+		/****************************************/
+		class ImageFrame
+		{
+		public:
 
-            ImageFrame( ImageStream& imageStream, DWORD dwMillisecondsToWait = 0 );
-            virtual ~ImageFrame();
+            /**
+			 * @brief	Constructor
+			 */
+			ImageFrame( ImageStream& imageStream, DWORD dwMillisecondsToWait = 0 );
 
-            /// 1ラインのバイト数を取得する
-            INT Pitch(){ return lockedRect_.Pitch; };
+            /**
+			 * @brief	Destructor
+			 */
+			virtual ~ImageFrame();
 
-            /// データの先頭アドレスを取得する
-            void* Bits() { return lockedRect_.pBits; };
+			/**
+			 * @brief	Get the number of byte of each line
+			 */
+			INT Pitch(){ return lockedRect_.Pitch; };
 
-            /// 幅(解像度)を取得する
-            UINT Width() const;
+			/**
+			 * @brief	Get the first address of data
+			 */
+			void* Bits() { return lockedRect_.pBits; };
+
+			/**
+			 * @brief	Get the width
+			 */
+			UINT Width() const;
             
-            /// 高さ(解像度)を取得する
-            UINT Height() const;
+			/**
+			 * @brief	Get the hight
+			 */
+			UINT Height() const;
 
-        protected:
+		protected:
 
-            ImageStream& imageStream_;
+			ImageStream& imageStream_; ///< image stream corresponds
 
-            const NUI_IMAGE_FRAME *imageFrame_;	///< フレームデータ
-            KINECT_LOCKED_RECT lockedRect_;	    ///< 矩形データ
-        };
+			const NUI_IMAGE_FRAME *imageFrame_;	///< Frame data
+			NUI_LOCKED_RECT lockedRect_;	    ///< Rect data. Kinect SDK beta2 transition, Nov. 2, 2011
+		};
+		
+		//////////////////////////////////////////////////////
+		//				class declarations					//
+		//////////////////////////////////////////////////////
+		/****************************************/
+		/**
+		 * @class	ImageFrame
+		 * @brief	Image frame for kinect video/ depth camera
+		 * @note	
+		 * @date	Oct. 26, 2011
+		 */
+		/****************************************/
+		class VideoFrame : public ImageFrame
+		{
+		public:
 
-        /// カメラ画像の1フレームデータ
-        class VideoFrame : public ImageFrame
-        {
-        public:
+            /**
+			 * @brief	Constructor
+			 */
+			VideoFrame( ImageStream& imageStream, DWORD dwMillisecondsToWait = 0 );
 
-            VideoFrame( ImageStream& imageStream, DWORD dwMillisecondsToWait = 0 );
-            virtual ~VideoFrame();
+            /**
+			 * @brief	Destructor
+			 */
+			virtual ~VideoFrame();
 
-            // 指定座標のデータ
-            UINT operator () ( UINT x, UINT y );
-        };
+			/**
+			 * @brief	Data cordinated
+			 */
+			UINT operator () ( UINT x, UINT y );
+		};
 
-        /// 距離画像の1フレームデータ
-        class DepthFrame : public ImageFrame
-        {
-        public:
-            
-            DepthFrame( ImageStream& imageStream, DWORD dwMillisecondsToWait = 0 );
-            virtual ~DepthFrame();
+		//////////////////////////////////////////////////////
+		//				class declarations					//
+		//////////////////////////////////////////////////////
+		/****************************************/
+		/**
+		 * @class	DepthFrame
+		 * @brief	Depth frame for Kinect depth camera
+		 * @note	
+		 * @date	Oct. 26, 2011
+		 */
+		/****************************************/
+		class DepthFrame : public ImageFrame
+		{
+		public:
+            /**
+			 * @brief	Constructor
+			 */
+			DepthFrame( ImageStream& imageStream, DWORD dwMillisecondsToWait = 0 );
 
-            // 指定座標のデータ
-            USHORT operator () ( UINT x, UINT y );
-        };
-    }
-}
+            /**
+			 * @brief	Destructor
+			 */
+			virtual ~DepthFrame();
+
+			/**
+			 * @brief	Data cordinated
+			 */
+			USHORT operator () ( UINT x, UINT y );
+		};
+	} // namespace nui
+} // namespace kinect
+#endif // KINECT_NUI_IMAGE_FRAME_H
