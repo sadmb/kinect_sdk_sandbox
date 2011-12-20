@@ -74,9 +74,9 @@ namespace kinect {
 			void Initialize( DWORD dwFlags );
 
 			/**
-			 * @brief	Shutdown this kinect
+			 * @brief	Close the kinect stream
 			 */
-			void Shutdown();
+			void Close();
 
 			/**
 			 * @brief	To add listener called when Kinect is plugged/ unplugged.
@@ -194,16 +194,21 @@ namespace kinect {
 			friend class KinectContext;
 
 			/**
-			 * @brief	Create kinect nui instance
+			 * @brief	Connect the kinect
 			 * @param	index	index for Kinect
 			 */
 			bool Connect(int index);
 
 			/**
-			 * @brief	Create kinect nui instance
+			 * @brief	Connect the kinect
 			 * @param	deviceName	deviceName for Kinect
 			 */
 			bool Connect(BSTR deviceName);
+
+			/**
+			 * @brief	Disconnect the kinect
+			 */
+			void Disconnect();
 
 			/**
 			 * @brief	Callback when kinect state changed

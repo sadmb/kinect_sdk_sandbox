@@ -52,7 +52,7 @@ namespace kinect {
 		//----------------------------------------------------------
 		Kinect::~Kinect()
 		{
-			Shutdown();
+			Disconnect();
 			// remove from the kinect context
 			KinectContext::GetContext().Remove(*this);
 			// release kinect listener
@@ -106,7 +106,7 @@ namespace kinect {
 		}
 
 		//----------------------------------------------------------
-		void Kinect::Shutdown()
+		void Kinect::Close()
 		{
 			if(isConnected_){
 				KinectContext::GetContext().Shutdown(*this);
@@ -224,6 +224,13 @@ namespace kinect {
 			skeleton_.CopyInstance(instance_);
 			isConnected_ = true;
 			return true;
+		}
+
+		//----------------------------------------------------------
+		void Kinect::Disconnect()
+		{
+			Close();
+			isConnected_ = false;
 		}
 	} ///< namespace nui
 } ///< namespace kinect
