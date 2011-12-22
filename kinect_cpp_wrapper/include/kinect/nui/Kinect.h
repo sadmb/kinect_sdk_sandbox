@@ -16,6 +16,7 @@
 #define KINECT_NUI_KINECT_H
 
 #include <memory>
+#include <map>
 
 #include <Windows.h>
 #include <MSR_NuiApi.h>
@@ -80,26 +81,24 @@ namespace kinect {
 
 			/**
 			 * @brief	To add listener called when Kinect is plugged/ unplugged.
+			 * @param	object				object which has functions
 			 * @param	pluggedFunction		listener function pointer called when the kinect plugged
 			 * @param	unpluggedFunction	listener function pointer called when the kinect unplugged
 			 */
 			template <class T> void AddKinectListener(T* object, void(T::* pluggedFunction)(), void(T::* unpluggedFunction)())
 			{
-				if(kinectListener_ != NULL){
-					RemoveKinectListener();
-				}
-				kinectListener_ = new KinectListener<T>(object, pluggedFunction, unpluggedFunction);
+				long key = reinterpret_cast<long>(object);
+				kinectListeners_.insert(std::pair<long, KinectListenerBase*>(key, new KinectListener<T>(object, pluggedFunction, unpluggedFunction)));
 			}
 
 			/**
 			 * @brief	To remove listener called when Kinect is plugged/ unplugged.
 			 */
-			void RemoveKinectListener()
+			template <class T> void RemoveKinectListener(T* object)
 			{
-				if(kinectListener_ != NULL){
-					delete[] kinectListener_;
-					kinectListener_ = NULL;
-				}
+				long key = reinterpret_cast<long>(object);
+				std::map<long, KinectListenerBase*>::iterator it = kinectListeners_.find(key);
+				kinectListeners_.erase(it);
 			}
 
 			/**
@@ -226,7 +225,7 @@ namespace kinect {
 			bool isConnected_;				///< is connected?
 			bool isInited_;					///< is initialized?
 
-			KinectListenerBase* kinectListener_;	///< listener when kinect plugged/ unplugged
+			std::map<long, KinectListenerBase*> kinectListeners_;	///< listener when kinect plugged/ unplugged
 		};
 	} // namespace nui
 } // namespace kinect

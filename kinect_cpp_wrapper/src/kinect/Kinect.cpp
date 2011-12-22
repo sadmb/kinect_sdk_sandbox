@@ -28,7 +28,6 @@ namespace kinect {
 			index_ = index;
 			isConnected_ = false;
 			isInited_ = false;
-			kinectListener_ = NULL;
 			instanceName_ = NULL;
 			// add to the kinect context
 			KinectContext::GetContext().Add(*this);
@@ -41,7 +40,6 @@ namespace kinect {
 			index_ = -1;
 			isConnected_ = false;
 			isInited_ = false;
-			kinectListener_ = NULL;
 			instanceName_ = deviceName;
 			// add to the kinect context
 			KinectContext::GetContext().Add(*this);
@@ -56,7 +54,7 @@ namespace kinect {
 			// remove from the kinect context
 			KinectContext::GetContext().Remove(*this);
 			// release kinect listener
-			RemoveKinectListener();
+			kinectListeners_.clear();
 		}
 
 		//----------------------------------------------------------
@@ -118,12 +116,14 @@ namespace kinect {
 		void Kinect::StatusProc( const NuiStatusData* pStatusData )
 		{
 			if(SUCCEEDED(pStatusData->hrStatus)){
-				if(kinectListener_ != NULL){
-					kinectListener_->Plugged();
+				std::map<long, KinectListenerBase*>::iterator it;
+				for(it = kinectListeners_.begin(); it != kinectListeners_.end(); ++it){
+					it->second->Plugged();
 				}
 			}else if(FAILED(pStatusData->hrStatus)){
-				if(kinectListener_ != NULL){
-					kinectListener_->Unplugged();
+				std::map<long, KinectListenerBase*>::iterator it;
+				for(it = kinectListeners_.begin(); it != kinectListeners_.end(); ++it){
+					it->second->Unplugged();
 				}
 			}
 		}
