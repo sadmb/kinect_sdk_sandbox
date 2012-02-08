@@ -36,7 +36,7 @@ void DrawSkeleton( IplImage* Skeleton, kinect::nui::SkeletonData& skeleton )
     std::vector< CvPoint > points;
     for ( int i = 0; i < kinect::nui::SkeletonData::POSITION_COUNT; i++)
     {
-        kinect::nui::SkeletonData::Point p = skeleton.TransformSkeletonToDepthImage( i );
+        kinect::nui::SkeletonData::SkeletonPoint p = skeleton.TransformSkeletonToDepthImage( i );
         points.push_back( cvPoint( (p.x * scaleX) + 0.5f, (p.y * scaleY) + 0.5f ) );
     }
 
@@ -74,13 +74,13 @@ void main()
 {
     try {
         kinect::nui::Kinect kinect;
-        kinect.Initialize( NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH_AND_PLAYER_INDEX | NUI_INITIALIZE_FLAG_USES_SKELETON );
+        kinect.Initialize( NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH_AND_PLAYER_INDEX);
 
         kinect::nui::ImageStream& video = kinect.VideoStream();
         video.Open( NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480 );
 
         kinect::nui::ImageStream& depth = kinect.DepthStream();
-        depth.Open( NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX, NUI_IMAGE_RESOLUTION_320x240 );
+		depth.Open( NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX, NUI_IMAGE_RESOLUTION_320x240, true );
 
         kinect::nui::SkeletonEngine& skeleton = kinect.Skeleton();
         skeleton.Enable();
@@ -102,8 +102,8 @@ void main()
             UINT* img = (UINT*)playerImg->imageData;
             for ( int y = 0; y < videoMD.Height(); ++y ) {
                 for ( int x = 0; x < videoMD.Width(); ++x, ++img ) {
-                    int player = depthMD( x / 2, y / 2 ) & 0x7;
-                    int depth = depthMD( x / 2, y / 2 ) >> 3;
+                    int player = depthMD( x/2 , y/2  ) & 0x7;
+                    int depth = depthMD( x/2 , y/2  ) >> 3;
 
                     // 1.5m以内でプレーヤがいなかった場合は白くする
                     // ちらかった家の対策

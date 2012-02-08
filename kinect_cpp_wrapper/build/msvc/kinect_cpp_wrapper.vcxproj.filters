@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\src\kinect\KinectContext.cpp">
       <Filter>kinect</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\kinect\AudioStream.cpp">
+      <Filter>kinect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\kinect\nui\Kinect.h">
@@ -73,6 +76,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\win32\SpinLock.h">
       <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\kinect\nui\AudioStream.h">
+      <Filter>kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\kinect\nui\StaticMediaBuffer.h">
+      <Filter>kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\kinect\nui\WaveAudio.h">
+      <Filter>kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\kinect\nui\WaveFileWriter.h">
+      <Filter>kinect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
