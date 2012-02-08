@@ -83,10 +83,10 @@
     <ClInclude Include="..\..\include\kinect\nui\StaticMediaBuffer.h">
       <Filter>kinect</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\kinect\nui\WaveAudio.h">
+    <ClInclude Include="..\..\include\kinect\nui\WaveFileWriter.h">
       <Filter>kinect</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\kinect\nui\WaveFileWriter.h">
+    <ClInclude Include="..\..\include\kinect\nui\WaveOutput.h">
       <Filter>kinect</Filter>
     </ClInclude>
   </ItemGroup>

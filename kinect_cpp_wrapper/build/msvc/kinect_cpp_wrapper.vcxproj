@@ -168,7 +168,7 @@
     <ClInclude Include="..\..\include\kinect\nui\SkeletonEngine.h" />
     <ClInclude Include="..\..\include\kinect\nui\SkeletonFrame.h" />
     <ClInclude Include="..\..\include\kinect\nui\StaticMediaBuffer.h" />
-    <ClInclude Include="..\..\include\kinect\nui\WaveAudio.h" />
+    <ClInclude Include="..\..\include\kinect\nui\WaveOutput.h" />
     <ClInclude Include="..\..\include\kinect\nui\WaveFileWriter.h" />
     <ClInclude Include="..\..\include\win32\Event.h" />
     <ClInclude Include="..\..\include\win32\SpinLock.h" />

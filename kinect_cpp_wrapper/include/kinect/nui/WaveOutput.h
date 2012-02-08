@@ -1,6 +1,6 @@
 /******************************************************************/
 /**
-	@file	WaveAudio.h
+	@file	WaveOutput.h
 	@brief	Simple output wave audio
 	@note	
 	@todo
@@ -12,8 +12,8 @@
 	@date	Feb. 03, 2012 modified
 */
 /******************************************************************/
-#ifndef KINECT_NUI_WAVE_AUDIO_H
-#define KINECT_NUI_WAVE_AUDIO_H
+#ifndef KINECT_NUI_WAVE_OUTPUT_H
+#define KINECT_NUI_WAVE_OUTPUT_H
 
 #include <vector>
 
@@ -26,26 +26,26 @@ namespace kinect {
 		//				class declarations					//
 		//////////////////////////////////////////////////////
 		// implemented
-		class WaveAudio;
+		class WaveOutput;
 
 		//////////////////////////////////////////////////////
 		//				class declarations					//
 		//////////////////////////////////////////////////////
 		/****************************************/
 		/**
-			@class	WaveAudio
-			@brief	Simple wave file writer
+			@class	WaveOutput
+			@brief	Simple wave output
 			@note	
 			@date	Feb. 03, 2012
 		*/
 		/****************************************/
-		class WaveAudio {
+		class WaveOutput {
 		public:
-			WaveAudio()
+			WaveOutput()
 			{
 			}
 
-			virtual ~WaveAudio()
+			virtual ~WaveOutput()
 			{
 				waveOutPause(hWaveOut);
 
@@ -120,8 +120,8 @@ namespace kinect {
 
 
 		private:
-			WaveAudio( const WaveAudio& rhs );
-			WaveAudio& operator = ( const WaveAudio& rhs );
+			WaveOutput( const WaveOutput& rhs );
+			WaveOutput& operator = ( const WaveOutput& rhs );
 
 		private:
 			static const int MAX_BUFFER_SIZE = 2 * 1024 * 1024;
@@ -132,7 +132,7 @@ namespace kinect {
 			int audioBufferCount_;
 			int audioBufferNextIndex_;
 		};
-	}
-}
+	} // nui
+} // kinect
 
-#endif // KINECT_NUI_WAVE_AUDIO_H
+#endif // KINECT_NUI_WAVE_OUTPUT_H
